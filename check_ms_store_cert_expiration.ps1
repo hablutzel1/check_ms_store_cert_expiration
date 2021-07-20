@@ -1,4 +1,5 @@
 # TODO get sure that if any command fails in an unexpected way, the full script ends with a non-zero status.
+# TODO check the possibility to use NSClient++ scripts\\lib\\wrapper.vbs and/or scripts\\lib\\NagiosPlugins.vbs.
 $Thumbprint=$args[0]
 # TODO validate coherence of the following arguments, i.e. $CriticalThresholdInDays shouldn't be larger than $WarningThresholdInDays.
 $WarningThresholdInDays=$args[1]
@@ -12,7 +13,7 @@ Exit 2
 $Now = Get-Date
 # TODO check the details of the following time related logic.
 $TimeSpanUntilExpiration = New-TimeSpan -Start $Now -End $MatchingCertificate.NotAfter
-$Message = ($MatchingCertificate.Subject + " will expire in " + $TimeSpanUntilExpiration.Days + " days.")
+$Message = ($MatchingCertificate.Subject + " (Thumbprint: "+ $Thumbprint +") will expire in " + $TimeSpanUntilExpiration.Days + " days.")
 If ($TimeSpanUntilExpiration.TotalDays -ge $WarningThresholdInDays){
 Write-Host ("OK: " + $Message)
 Exit 0
